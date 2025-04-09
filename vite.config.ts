@@ -3,7 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/levelUp-shool-website/',  // This ensures the base path for GitHub Pages
+  base: '/levelUp-shool-website/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
   server: {
     host: true,
     port: 5173,
