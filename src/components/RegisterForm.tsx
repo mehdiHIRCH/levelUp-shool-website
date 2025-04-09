@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 
-// Custom validation for Moroccan phone numbers
 const moroccanPhoneRegex = /^(?:\+212|0)(?:[ \-]?[5-7])(?:[ \-]?\d{2}){4}$/;
 
 const germanCourseSchema = z.object({
@@ -62,9 +61,9 @@ interface RegisterFormProps {
   isStudyAbroad?: boolean;
 }
 
-export const RegisterForm: React.FC<RegisterFormProps> = ({ 
-  onSubmit, 
-  content, 
+export const RegisterForm: React.FC<RegisterFormProps> = ({
+  onSubmit,
+  content,
   selectedCountry,
   isStudyAbroad = false
 }) => {
@@ -74,11 +73,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     formState: { errors, isSubmitting },
     reset,
     setValue
-  } = useForm({
+  } = useForm<GermanCourseData | StudyAbroadData>({
     resolver: zodResolver(isStudyAbroad ? studyAbroadSchema : germanCourseSchema),
-    defaultValues: isStudyAbroad ? {
-      country: selectedCountry || ''
-    } : undefined
+    defaultValues: isStudyAbroad
+      ? ({ country: selectedCountry || '' } as StudyAbroadData)
+      : undefined
   });
 
   React.useEffect(() => {
@@ -90,7 +89,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const handleFormSubmit = async (data: GermanCourseData | StudyAbroadData) => {
     try {
       if (isStudyAbroad) {
-        // Insert into study_abroad_registrations table
         const { error } = await supabase
           .from('study_abroad_registrations')
           .insert([{
@@ -101,10 +99,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             country: (data as StudyAbroadData).country,
             message: (data as StudyAbroadData).message
           }]);
-
         if (error) throw error;
       } else {
-        // Insert into inscription table for German courses
         const { error } = await supabase
           .from('inscription')
           .insert([{
@@ -116,7 +112,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             study_goal: (data as GermanCourseData).studyGoal,
             type: 'german_course'
           }]);
-
         if (error) throw error;
       }
 
@@ -128,9 +123,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     }
   };
 
-  if (!content?.form) {
-    return null;
-  }
+  if (!content?.form) return null;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
@@ -143,8 +136,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             placeholder={content.form.placeholders.firstName}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
-          {errors.firstName && (
-            <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+          {'firstName' in errors && (
+            <p className="mt-1 text-sm text-red-600">{errors.firstName?.message}</p>
           )}
         </div>
 
@@ -156,8 +149,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             placeholder={content.form.placeholders.lastName}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
-          {errors.lastName && (
-            <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+          {'lastName' in errors && (
+            <p className="mt-1 text-sm text-red-600">{errors.lastName?.message}</p>
           )}
         </div>
       </div>
@@ -170,8 +163,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           placeholder={content.form.placeholders.email}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+        {'email' in errors && (
+          <p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>
         )}
       </div>
 
@@ -183,8 +176,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           placeholder="+212 6 XX XX XX XX"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
-        {errors.phone && (
-          <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+        {'phone' in errors && (
+          <p className="mt-1 text-sm text-red-600">{errors.phone?.message}</p>
         )}
         <p className="mt-1 text-xs text-gray-500">Format: +212 6XX XX XX XX ou 06XX XX XX XX</p>
       </div>
@@ -203,8 +196,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 <option key={key} value={key}>{value.title}</option>
               ))}
             </select>
-            {errors.country && (
-              <p className="mt-1 text-sm text-red-600">{errors.country.message}</p>
+            {'country' in errors && (
+              <p className="mt-1 text-sm text-red-600">{errors.country?.message}</p>
             )}
           </div>
 
@@ -216,8 +209,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               placeholder={content.form.placeholders.message}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
-            {errors.message && (
-              <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+            {'message' in errors && (
+              <p className="mt-1 text-sm text-red-600">{errors.message?.message}</p>
             )}
           </div>
         </>
@@ -233,8 +226,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 <option key={key} value={key}>{value}</option>
               ))}
             </select>
-            {errors.currentLevel && (
-              <p className="mt-1 text-sm text-red-600">{errors.currentLevel.message}</p>
+            {'currentLevel' in errors && (
+              <p className="mt-1 text-sm text-red-600">{errors.currentLevel?.message}</p>
             )}
           </div>
 
@@ -246,8 +239,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               placeholder={content.form.placeholders.studyGoal}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
-            {errors.studyGoal && (
-              <p className="mt-1 text-sm text-red-600">{errors.studyGoal.message}</p>
+            {'studyGoal' in errors && (
+              <p className="mt-1 text-sm text-red-600">{errors.studyGoal?.message}</p>
             )}
           </div>
         </>

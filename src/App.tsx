@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useLanguage } from './hooks/useLanguage';
 import { useTranslation } from './hooks/useTranslation';
@@ -9,7 +10,7 @@ import { Legal } from './pages/Legal';
 import { Admin } from './pages/Admin';
 
 function App() {
-  const { language, changeLanguage, direction } = useLanguage();
+  const { language, direction } = useLanguage();
   const { t } = useTranslation(language as any);
   const location = useLocation();
 

@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { getInscriptions, getMessages, markNotificationAsRead } from '../lib/supabase';
 
 interface Message {
