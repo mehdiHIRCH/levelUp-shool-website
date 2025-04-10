@@ -8,23 +8,21 @@ export const Footer: React.FC = () => {
 
   const handleNavClick = (sectionId: string) => {
     if (location.pathname === '/') {
-      // If we're on the home page, scroll to the section
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // If we're on another page, navigate to home and then scroll
       navigate('/', { state: { scrollTo: sectionId } });
     }
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-12 px-8">
-      <div className="container-width">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer className="bg-gray-900 text-white py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div>
-            <div className="h-24 mb-6">
+            <div className="h-20 sm:h-24 mb-6">
               <img 
                 src={LOGO_URL}
                 alt="LevelUp Logo" 

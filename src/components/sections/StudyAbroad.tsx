@@ -38,12 +38,12 @@ export const StudyAbroad = ({ content }: { content: StudyAbroadContent }) => {
     <section className="py-16 bg-gray-50" id="study-abroad">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">{content.title}</h2>
-            <p className="text-gray-600 text-lg">{content.subtitle}</p>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{content.title}</h2>
+            <p className="text-base sm:text-lg text-gray-600">{content.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
             {Object.entries(content.destinations).map(([key, destination]) => (
               <div 
                 key={key} 
@@ -62,7 +62,7 @@ export const StudyAbroad = ({ content }: { content: StudyAbroadContent }) => {
                         alt={`Drapeau ${destination.title.split(' ').pop()}`}
                         className="w-8 h-6 object-cover rounded shadow-sm"
                       />
-                      <h3 className="text-xl font-semibold">{destination.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-semibold">{destination.title}</h3>
                     </div>
                     <p className="text-gray-600 mb-4 flex-grow">{destination.description}</p>
                     <ul className="space-y-2">
@@ -79,7 +79,7 @@ export const StudyAbroad = ({ content }: { content: StudyAbroadContent }) => {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {Object.entries(content.features).map(([key, feature]) => (
               <div key={key} className="text-center">
                 <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>

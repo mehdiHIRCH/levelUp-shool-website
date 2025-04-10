@@ -26,7 +26,6 @@ export const Contact = ({ content }: { content: ContactContent }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
 
-  // Early return if content is not available
   if (!content?.title || !content?.form) {
     return null;
   }
@@ -62,7 +61,7 @@ export const Contact = ({ content }: { content: ContactContent }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">{content.title}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{content.title}</h2>
             {content.subtitle && (
               <p className="text-gray-600">{content.subtitle}</p>
             )}

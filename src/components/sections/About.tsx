@@ -13,11 +13,9 @@ interface AboutContent {
 }
 
 export const About = ({ content }: { content: AboutContent }) => {
-  // Return null if no content is provided
-  if (!content) return null;
-
-  // Ensure features exists and is an array, otherwise use empty array
-  const features = Array.isArray(content.features) ? content.features : [];
+  if (!content?.features || !Array.isArray(content.features)) {
+    return null;
+  }
 
   return (
     <section className="py-16 bg-white" id="about">
@@ -29,7 +27,7 @@ export const About = ({ content }: { content: AboutContent }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-3xl font-bold mb-4"
+              className="text-2xl sm:text-3xl font-bold mb-4"
             >
               {content.title || ''}
             </motion.h2>
@@ -38,7 +36,7 @@ export const About = ({ content }: { content: AboutContent }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-600 text-lg mb-8"
+              className="text-base sm:text-lg text-gray-600 mb-8"
             >
               {content.subtitle || ''}
             </motion.p>
@@ -53,8 +51,8 @@ export const About = ({ content }: { content: AboutContent }) => {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {content.features.map((feature, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -69,7 +67,7 @@ export const About = ({ content }: { content: AboutContent }) => {
                   {index === 2 && <Users className="w-8 h-8 text-blue-600" />}
                   {index === 3 && <Award className="w-8 h-8 text-blue-600" />}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title || ''}</h3>
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">{feature.title || ''}</h3>
                 <p className="text-gray-600">{feature.description || ''}</p>
               </motion.div>
             ))}

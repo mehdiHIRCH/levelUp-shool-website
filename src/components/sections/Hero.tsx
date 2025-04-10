@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Button';
@@ -50,25 +49,25 @@ export const Hero = ({ content }: { content: HeroContent }) => {
         onClose={() => setIsConsultationOpen(false)} 
       />
 
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden">
+      <section className="relative min-h-[calc(100vh-6rem)] flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20 z-10"></div>
         
         <motion.div 
-          className="container mx-auto px-4 relative z-20"
+          className="container mx-auto relative z-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <div className="max-w-4xl mx-auto text-center">
             <motion.h1 
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200"
+              className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200"
               variants={itemVariants}
             >
               {content.title}
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl mb-12 text-gray-100"
+              className="text-lg sm:text-xl md:text-2xl mb-12 text-gray-100"
               variants={itemVariants}
             >
               {content.subtitle}
@@ -77,10 +76,10 @@ export const Hero = ({ content }: { content: HeroContent }) => {
               className="flex flex-col sm:flex-row gap-6 justify-center"
               variants={itemVariants}
             >
-              <Link to="/register">
+              <Link to="/register" className="w-full sm:w-auto">
                 <Button 
                   variant="primary"
-                  className="group relative overflow-hidden w-full sm:w-auto"
+                  className="w-full sm:w-auto group relative overflow-hidden"
                 >
                   <span className="relative z-10">{content.cta.start}</span>
                   <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
@@ -88,7 +87,7 @@ export const Hero = ({ content }: { content: HeroContent }) => {
               </Link>
               <Button 
                 variant="secondary"
-                className="group relative overflow-hidden"
+                className="w-full sm:w-auto group relative overflow-hidden"
                 onClick={() => setIsConsultationOpen(true)}
               >
                 <span className="relative z-10">{content.cta.consult}</span>
