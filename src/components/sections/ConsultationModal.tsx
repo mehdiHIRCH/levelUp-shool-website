@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Phone } from 'lucide-react';
 import { CONTACT_INFO } from '../../config/constants';
@@ -40,53 +41,52 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
   const handleClose = () => {
     onClose();
-    // Reset state when modal is closed
     setMode(null);
     setSubmitted(false);
     setError(null);
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <>
+        <div className="fixed inset-0 flex items-center justify-center z-[999] p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/50"
             onClick={handleClose}
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-2xl p-6 z-50"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-white rounded-2xl p-6 shadow-xl z-[1000]"
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full p-1"
             >
               <X className="w-6 h-6" />
             </button>
 
-            <h3 className="text-2xl font-bold mb-6">Consultation Gratuite</h3>
+            <h3 className="text-2xl font-bold mb-6 pr-8">Consultation Gratuite</h3>
 
             {!mode ? (
               <div className="space-y-4">
                 <button
                   onClick={() => setMode('call')}
-                  className="w-full p-4 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition flex items-center gap-3"
+                  className="w-full p-4 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <Phone className="w-5 h-5 text-blue-600" />
+                  <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <span>Appeler maintenant</span>
                 </button>
                 <button
                   onClick={() => setMode('callback')}
-                  className="w-full p-4 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition flex items-center gap-3"
+                  className="w-full p-4 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <Phone className="w-5 h-5 text-blue-600" />
+                  <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <span>Être rappelé</span>
                 </button>
               </div>
@@ -99,7 +99,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                       <p className="font-medium">{location.city}</p>
                       <a 
                         href={`tel:${location.phone}`} 
-                        className="text-blue-600 hover:text-blue-800 transition"
+                        className="text-blue-600 hover:text-blue-800 transition block mt-1"
                       >
                         {location.phone}
                       </a>
@@ -125,7 +125,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+212 6 XX XX XX XX"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                   />
                   <p className="mt-1 text-xs text-gray-500">
                     Format: +212 6XX XX XX XX ou 06XX XX XX XX
@@ -139,7 +139,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   {isSubmitting ? 'Envoi en cours...' : 'Demander un rappel'}
                 </button>
@@ -149,14 +149,15 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
             {mode && (
               <button
                 onClick={() => setMode(null)}
-                className="mt-4 text-gray-600 hover:text-gray-800 transition"
+                className="mt-4 text-gray-600 hover:text-gray-800 transition focus:outline-none focus:ring-2 focus:ring-gray-300 rounded px-3 py-1"
               >
                 Retour
               </button>
             )}
           </motion.div>
-        </>
+        </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
