@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: '/levelUp-shool-website/',
+  base: mode === 'development' ? '/' : '/levelUp-shool-website/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -19,4 +19,4 @@ export default defineConfig({
     port: 5173,
     strictPort: true
   }
-});
+}));
