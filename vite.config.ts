@@ -7,16 +7,5 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-  },
-  server: {
-    host: true,
-    port: 5173,
-    strictPort: true,
-    hmr: true
-  },
-  preview: {
-    host: true,
-    port: 5173,
-    strictPort: true
   }
 }));
